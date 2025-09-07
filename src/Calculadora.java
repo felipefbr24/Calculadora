@@ -1,23 +1,16 @@
-public class Calculadora {
-    protected double numero1;
-    protected double numero2;
-    protected double resultado;
+public abstract class Calculadora {
+    /** Suma dos números dados como cadenas en el sistema de la calculadora. */
+    public abstract String sumar(String a, String b);
 
-    public Calculadora(double numero1, double numero2) {
-        this.numero1 = numero1;
-        this.numero2 = numero2;
-    }
+    /** Resta dos números dados como cadenas en el sistema de la calculadora. (a - b) */
+    public abstract String restar(String a, String b);
 
-    public void suma() {
-        resultado = numero1 + numero2;
-    }
+    /** Valida el formato de la cadena según el sistema numérico. */
+    protected abstract void validar(String s);
 
-    public void resta() {
-        resultado = numero1 - numero2;
-    }
+    /** Convierte cadena del sistema propio a entero. */
+    protected abstract int parse(String s);
 
-    // Método a sobrescribir (polimorfismo)
-    public String convertir() {
-        return String.valueOf((int) resultado); // por defecto decimal
-    }
+    /** Convierte entero a cadena en el sistema propio. */
+    protected abstract String formatear(int valor);
 }

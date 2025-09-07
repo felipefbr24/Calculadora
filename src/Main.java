@@ -1,35 +1,69 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Ingrese primer número decimal: ");
-        double n1 = sc.nextDouble();
+        try {
+            System.out.println("Seleccione el sistema numérico:");
+            System.out.println("1. Decimal");
+            System.out.println("2. Binario");
+            System.out.println("3. Octal");
+            System.out.print("Opción: ");
 
-        System.out.print("Ingrese segundo número decimal: ");
-        double n2 = sc.nextDouble();
+            int opcion = sc.nextInt();
+            Calculadora calc;
 
-        System.out.println("Elija operación: 1.Suma  2.Resta");
-        int op = sc.nextInt();
+            switch (opcion) {
+                case 1:
+                    calc = new CalculadoraDecimal();
+                    break;
+                case 2:
+                    calc = new CalculadoraBinaria();
+                    break;
+                case 3:
+                    calc = new CalculadoraOctal();
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+                    return;
+            }
 
-        System.out.println("Formato: 1.Binario  2.Octal");
-        int formato = sc.nextInt();
+            System.out.print("Ingrese el primer número: ");
+            String a = sc.next();   
 
-        Calculadora calc;
+            System.out.print("Ingrese el segundo número: ");
+            String b = sc.next();  
 
-        if (formato == 1) {
-            calc = new Binario(n1, n2);
-        } else {
-            calc = new Octal(n1, n2);
+            System.out.println("Seleccione la operación:");
+            System.out.println("1. Suma");
+            System.out.println("2. Resta");
+            System.out.print("Opción: ");
+
+            int op = sc.nextInt();
+            String resultado;
+
+            switch (op) {
+                case 1:
+                    resultado = calc.sumar(a, b);
+                    break;
+                case 2:
+                    resultado = calc.restar(a, b);
+                    break;
+                default:
+                    System.out.println("Operación inválida.");
+                    return;
+            }
+
+            System.out.println("Resultado: " + resultado);
+        } catch (InputMismatchException e) {
+            System.out.println("Entrada no válida. Asegúrate de ingresar números y opciones correctas.");
+        } catch (NumberFormatException e) {
+            // Viene de validar/parsear en las clases hijas
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            sc.close();
         }
-
-        if (op == 1) {
-            calc.suma();
-        } else {
-            calc.resta();
-        }
-
-        System.out.println("Resultado: " + calc.convertir());
     }
 }
